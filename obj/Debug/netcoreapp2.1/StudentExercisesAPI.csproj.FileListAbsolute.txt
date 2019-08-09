@@ -1,0 +1,14 @@
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\bin\Debug\netcoreapp2.1\StudentExercisesAPI.deps.json
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\bin\Debug\netcoreapp2.1\StudentExercisesAPI.runtimeconfig.json
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\bin\Debug\netcoreapp2.1\StudentExercisesAPI.runtimeconfig.dev.json
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\bin\Debug\netcoreapp2.1\StudentExercisesAPI.dll
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\bin\Debug\netcoreapp2.1\StudentExercisesAPI.pdb
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\obj\Debug\netcoreapp2.1\StudentExercisesAPI.csprojAssemblyReference.cache
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\obj\Debug\netcoreapp2.1\StudentExercisesAPI.csproj.CoreCompileInputs.cache
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\obj\Debug\netcoreapp2.1\StudentExercisesAPI.RazorAssemblyInfo.cache
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\obj\Debug\netcoreapp2.1\StudentExercisesAPI.RazorAssemblyInfo.cs
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\obj\Debug\netcoreapp2.1\StudentExercisesAPI.AssemblyInfoInputs.cache
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\obj\Debug\netcoreapp2.1\StudentExercisesAPI.AssemblyInfo.cs
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\obj\Debug\netcoreapp2.1\StudentExercisesAPI.RazorTargetAssemblyInfo.cache
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\obj\Debug\netcoreapp2.1\StudentExercisesAPI.dll
+C:\Users\imapl\Documents\Workspace\StudentExercisesAPI\StudentExercisesAPI\obj\Debug\netcoreapp2.1\StudentExercisesAPI.pdb

@@ -11,11 +11,11 @@ namespace StudentExercisesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentsController : ControllerBase
+    public class InstructorsController : ControllerBase
     {
         private readonly IConfiguration _config;
 
-        public StudentsController(IConfiguration config)
+        public InstructorsController(IConfiguration config)
         {
             _config = config;
         }
@@ -37,13 +37,13 @@ namespace StudentExercisesAPI.Controllers
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT s.Id AS StudentId, s.FirstName, s.LastName, s.SlackHandle, 
-                                            s.CohortId, c.CohortName 
-                                        FROM Students s
-                                        JOIN Cohorts c ON c.Id = s.CohortId";
+                    cmd.CommandText = @"SELECT i.Id AS InstructorId, i.FirstName, i.LastName, i.SlackHandle, 
+                                            i.CohortId, i.Specialty, c.CohortName 
+                                        FROM Instructor i
+                                        JOIN Cohorts c ON c.Id = i.CohortId";
                     SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
-                    List<Student> students = new List<Student>();
+                    List<Instructor> instructors = new List<Instructor>();
                     while (reader.Read())
                     {
                         Cohort cohort = new Cohort
@@ -52,22 +52,23 @@ namespace StudentExercisesAPI.Controllers
                             CohortName = reader.GetString(reader.GetOrdinal("CohortName"))
                         };
 
-                        Student student = new Student
+                        Instructor instructor = new Instructor
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
                             LastName = reader.GetString(reader.GetOrdinal("LastName")),
                             SlackHandle = reader.GetString(reader.GetOrdinal("SlackHandle")),
                             CohortId = reader.GetInt32(reader.GetOrdinal("CohortId")),
-                            Cohort = cohort
+                            Specialty = reader.GetString(reader.GetOrdinal("Specialty"))
                         };
 
-                        students.Add(student);
+                        instructor.Cohort = cohort;
+                        instructors.Add(instructor);
                     }
 
                     reader.Close();
 
-                    return Ok(students);
+                    return Ok(instructors);
                 }
             }
         }

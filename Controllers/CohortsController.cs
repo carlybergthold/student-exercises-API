@@ -11,11 +11,11 @@ namespace StudentExercisesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentsController : ControllerBase
+    public class CohortsController : ControllerBase
     {
         private readonly IConfiguration _config;
 
-        public StudentsController(IConfiguration config)
+        public CohortsController(IConfiguration config)
         {
             _config = config;
         }
@@ -37,13 +37,11 @@ namespace StudentExercisesAPI.Controllers
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT s.Id AS StudentId, s.FirstName, s.LastName, s.SlackHandle, 
-                                            s.CohortId, c.CohortName 
-                                        FROM Students s
-                                        JOIN Cohorts c ON c.Id = s.CohortId";
+                    cmd.CommandText = @"SELECT Id, CohortName
+                                        FROM Cohorts";
                     SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
-                    List<Student> students = new List<Student>();
+                    List<Cohort> cohorts = new List<Cohort>();
                     while (reader.Read())
                     {
                         Cohort cohort = new Cohort
@@ -52,22 +50,12 @@ namespace StudentExercisesAPI.Controllers
                             CohortName = reader.GetString(reader.GetOrdinal("CohortName"))
                         };
 
-                        Student student = new Student
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                            LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                            SlackHandle = reader.GetString(reader.GetOrdinal("SlackHandle")),
-                            CohortId = reader.GetInt32(reader.GetOrdinal("CohortId")),
-                            Cohort = cohort
-                        };
-
-                        students.Add(student);
+                        cohorts.Add(cohort);
                     }
 
                     reader.Close();
 
-                    return Ok(students);
+                    return Ok(cohorts);
                 }
             }
         }
