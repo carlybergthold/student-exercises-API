@@ -27,55 +27,10 @@ namespace StudentExercisesAPI.Controllers
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-
-        // GET api/values
-       /* [HttpGet]
-        public async Task<IActionResult> Get(string q)
-        {
-            using (SqlConnection conn = Connection)
-            {
-                conn.Open();
-                using (SqlCommand cmd = conn.CreateCommand())
-
-                    {
-                        cmd.CommandText = @"SELECT s.Id AS StudentId, s.FirstName, s.LastName, s.SlackHandle, 
-                                            s.CohortId, c.CohortName 
-                                        FROM Students s
-                                        JOIN Cohorts c ON c.Id = s.CohortId";
-                    SqlDataReader reader = await cmd.ExecuteReaderAsync();
-
-                    List<Student> students = new List<Student>();
-                    while (reader.Read())
-                    {
-                        Cohort cohort = new Cohort
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("CohortId")),
-                            CohortName = reader.GetString(reader.GetOrdinal("CohortName"))
-                        };
-
-                        Student student = new Student
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("StudentId")),
-                            FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                            LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                            SlackHandle = reader.GetString(reader.GetOrdinal("SlackHandle")),
-                            CohortId = reader.GetInt32(reader.GetOrdinal("CohortId")),
-                            Cohort = cohort
-                        };
-
-                        students.Add(student);
-                    }
-
-                    reader.Close();
-
-                    return Ok(students);
-                }
-            }
-        } */
         
     // GET api/values
         [HttpGet]
-        public async Task<IActionResult> Get(string query)
+        public async Task<IActionResult> Get(string firstname, string lastname, string slackhandle)
         {
             string SqlCmdText = @"SELECT s.Id AS StudentId, s.FirstName, s.LastName, s.SlackHandle, 
                                             s.CohortId, c.CohortName 
@@ -86,15 +41,24 @@ namespace StudentExercisesAPI.Controllers
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
-
+                {
+                    if (firstname != null)
                     {
-                    cmd.CommandText = SqlCmdText;
-
-                    if (query != null)
-                    {
-                        SqlCmdText = $"{SqlCmdText} WHERE s.FirstName LIKE '%' + @query + '%'";
-                        cmd.Parameters.Add(new SqlParameter("@query", query));
+                        SqlCmdText = $"{SqlCmdText} WHERE s.FirstName LIKE '%' + @firstname + '%'";
+                        cmd.Parameters.Add(new SqlParameter("@firstname", firstname));
                     }
+                    if (lastname != null)
+                    {
+                        SqlCmdText = $"{SqlCmdText} WHERE s.LastName LIKE '%' + @lastname + '%'";
+                        cmd.Parameters.Add(new SqlParameter("@lastname", lastname));
+                    }
+                    if (slackhandle != null)
+                    {
+                        SqlCmdText = $"{SqlCmdText} WHERE s.SlackHandle LIKE '%' + @slackhandle + '%'";
+                        cmd.Parameters.Add(new SqlParameter("@slackhandle", slackhandle));
+                    }
+
+                    cmd.CommandText = SqlCmdText;
 
                     SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
