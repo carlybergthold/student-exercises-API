@@ -27,20 +27,39 @@ namespace StudentExercisesAPI.Controllers
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-
-        // GET api/values
+        
+    // GET api/values
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string firstname, string lastname, string slackhandle)
         {
+            string SqlCmdText = @"SELECT s.Id AS StudentId, s.FirstName, s.LastName, s.SlackHandle, 
+                                            s.CohortId, c.CohortName 
+                                        FROM Students s
+                                        JOIN Cohorts c ON c.Id = s.CohortId";
+
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT s.Id AS StudentId, s.FirstName, s.LastName, s.SlackHandle, 
-                                            s.CohortId, c.CohortName 
-                                        FROM Students s
-                                        JOIN Cohorts c ON c.Id = s.CohortId";
+                    if (firstname != null)
+                    {
+                        SqlCmdText = $"{SqlCmdText} WHERE s.FirstName LIKE '%' + @firstname + '%'";
+                        cmd.Parameters.Add(new SqlParameter("@firstname", firstname));
+                    }
+                    if (lastname != null)
+                    {
+                        SqlCmdText = $"{SqlCmdText} WHERE s.LastName LIKE '%' + @lastname + '%'";
+                        cmd.Parameters.Add(new SqlParameter("@lastname", lastname));
+                    }
+                    if (slackhandle != null)
+                    {
+                        SqlCmdText = $"{SqlCmdText} WHERE s.SlackHandle LIKE '%' + @slackhandle + '%'";
+                        cmd.Parameters.Add(new SqlParameter("@slackhandle", slackhandle));
+                    }
+
+                    cmd.CommandText = SqlCmdText;
+
                     SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
                     List<Student> students = new List<Student>();
@@ -54,7 +73,7 @@ namespace StudentExercisesAPI.Controllers
 
                         Student student = new Student
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Id = reader.GetInt32(reader.GetOrdinal("StudentId")),
                             FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
                             LastName = reader.GetString(reader.GetOrdinal("LastName")),
                             SlackHandle = reader.GetString(reader.GetOrdinal("SlackHandle")),

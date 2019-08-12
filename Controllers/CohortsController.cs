@@ -30,7 +30,7 @@ namespace StudentExercisesAPI.Controllers
 
         // GET api/values
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string query)
         {
             using (SqlConnection conn = Connection)
             {
@@ -46,7 +46,7 @@ namespace StudentExercisesAPI.Controllers
                     {
                         Cohort cohort = new Cohort
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("CohortId")),
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             CohortName = reader.GetString(reader.GetOrdinal("CohortName"))
                         };
 
@@ -59,6 +59,8 @@ namespace StudentExercisesAPI.Controllers
                 }
             }
         }
+
+
 
         // GET api/values/5
         [HttpGet("{id}")]
